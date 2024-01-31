@@ -5,9 +5,17 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const refs = {
   form: document.querySelector('.form'),
-  gallery: document.querySelector('ul.gallery'),
+  gallery: document.querySelector('.gallery'),
 };
 refs.form.addEventListener('submit', onFormSubmit);
+
+function getImagesByName(name) {
+  const BASE_URL = 'https://pixabay.com/api';
+  const PARAMS = `/?key=42132229-e88b92984f0d2a7001cb07c65&image_type=photo&orientation=horizontal&safesearch=true&q=${name}`;
+  const url = BASE_URL + PARAMS;
+
+  return fetch(url).then(res => res.json());
+}
 
 function onFormSubmit(event) {
   event.preventDefault();
@@ -18,23 +26,7 @@ function onFormSubmit(event) {
   event.target.reset();
 }
 
-function getImagesByName(name) {
-  const BASE_URL = 'https://pixabay.com/api';
-  const PARAMS = `/?key=42132229-e88b92984f0d2a7001cb07c65&image_type=photo&orientation=horizontal&safesearch=true&q=${name}`;
-  const url = BASE_URL + PARAMS;
-
-  return fetch(url).then(res => res.json());
-}
-
-function galleryTemplate({
-  largeImageURL,
-  webformatURL,
-  tags,
-  likes,
-  views,
-  comments,
-  downloads,
-}) {
+function galleryTemplate({largeImageURL, webformatURL, tags, likes, views, comments, downloads}) {
   return `<a class="gallery-link" href="${largeImageURL}">
         <img
           class="gallery-image"
@@ -55,6 +47,14 @@ function renderMarkup(images) {
   refs.gallery.innerHTML = markup;
 }
 
+let gallery = new SimpleLightbox('.gallery a');
+gallery.on('show.simplelightbox', function () {
+	// Do something…
+});
+
+gallery.on('error.simplelightbox', function (e) {
+	console.log(e); // Some usefull information
+});
 // function blockAction(e) {
 //   if (e.target.nodeName !== 'A') e.preventDefault();
 // }
