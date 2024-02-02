@@ -2,6 +2,8 @@ import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+import './css/styles.css';
+import './css/loader.css';
 import errorIcon from './img/bi_x-octagon.svg';
 
 const refs = {
@@ -13,9 +15,15 @@ refs.loader.style.visibility = 'hidden';
 refs.form.addEventListener('submit', onFormSubmit);
 
 function getImagesByName(name) {
-  const BASE_URL = 'https://pixabay.com/api';
-  const PARAMS = `/?key=42132229-e88b92984f0d2a7001cb07c65&image_type=photo&orientation=horizontal&safesearch=true&q=${name}`;
-  const url = BASE_URL + PARAMS;
+  const searchParams = new URLSearchParams({
+    key: "42132229-e88b92984f0d2a7001cb07c65",
+    image_type: "photo",
+    orientation: "horizontal",
+    safesearch: "true",
+    q: name,
+  });
+  const BASE_URL = 'https://pixabay.com/api/';
+  const url = BASE_URL + "?" + searchParams;
    return fetch(url).then(response =>
      response.json()).catch(error => {
       console.log(error);
@@ -26,14 +34,12 @@ function onFormSubmit(event) {
   event.preventDefault();
   refs.loader.style.visibility = 'visible';
   const query = event.target.elements.query.value;
-  
   getImagesByName(query).then(data => {
     refs.loader.style.visibility = 'hidden';
     if(query === '') {
       refs.gallery.innerHTML = "";
       return
-    };
-    if (parseInt(data.totalHits) > 0) {
+    } else if (parseInt(data.totalHits) > 0) {
       renderMarkup(data.hits);
     } else {
       refs.gallery.innerHTML = '';
@@ -46,8 +52,8 @@ function onFormSubmit(event) {
         iconColor: 'white',
         iconUrl: errorIcon,
         color: 'white',
+        timeout: 2000,
     });
-  
     }
   });
   event.target.reset();
