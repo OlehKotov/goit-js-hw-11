@@ -1,21 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
     
-  <script type="module" crossorigin src="/goit-js-hw-11/commonHelpers.js"></script>
-  <link rel="modulepreload" crossorigin href="/goit-js-hw-11/assets/vendor-b41a7778.js">
-  <link rel="stylesheet" href="/goit-js-hw-11/assets/vendor-eb6030bc.css">
-  <link rel="stylesheet" href="/goit-js-hw-11/assets/index-4cb19283.css">
-</head>
-<body>
+    <script type="module" crossorigin src="/goit-js-hw-11/commonHelpers.js"></script>
+    <link rel="modulepreload" crossorigin href="/goit-js-hw-11/assets/vendor-46aac873.js">
+    <link rel="stylesheet" href="/goit-js-hw-11/assets/vendor-eb6030bc.css">
+    <link rel="stylesheet" href="/goit-js-hw-11/assets/index-769320a1.css">
+  </head>
+  <body>
     <form class="form">
-        <input type="text" placeholder="Search Images.." name ="query" autocomplete="off" autofocus>
-        <button type="submit" class="btn">Search</button>
+      <input
+        type="text"
+        placeholder="Search Images.."
+        name="query"
+        autocomplete="off"
+        autofocus
+      />
+      <button type="submit" class="btn">Search</button>
     </form>
+    <span class="loader"></span>
     <div class="gallery"></div>
     
-</body>
+  </body>
 </html>
