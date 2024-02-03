@@ -5,46 +5,75 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 import './css/styles.css';
 import './css/loader.css';
 import errorIcon from './img/bi_x-octagon.svg';
+import './key.env';
 
 const refs = {
   form: document.querySelector('.form'),
   gallery: document.querySelector('.gallery'),
   loader: document.querySelector('.loader'),
 };
-refs.loader.style.visibility = 'hidden';
+function toggleLoader() {
+  refs.loader.classList.toggle('hidden');
+}
+
 refs.form.addEventListener('submit', onFormSubmit);
 
 function getImagesByName(name) {
   const searchParams = new URLSearchParams({
-    key: "42132229-e88b92984f0d2a7001cb07c65",
-    image_type: "photo",
-    orientation: "horizontal",
-    safesearch: "true",
+    key: apiKey,
+    image_type: 'photo',
+    orientation: 'horizontal',
+    safesearch: 'true',
     q: name,
   });
-  const BASE_URL = 'https://pixabay.com/api/';
-  const url = BASE_URL + "?" + searchParams;
-   return fetch(url).then(response =>
-     response.json()).catch(error => {
-      console.log(error);
-    })   
-  }
+  const BASE_URL = 'https://pixabay.com/api';
+  const url = BASE_URL + '?' + searchParams;
+  return fetch(url).then(res => {
+    if (res.ok) {
+      return res.json();
+    } else {
+      throw new Error(res.status);
+    }
+  });
+}
 
 function onFormSubmit(event) {
   event.preventDefault();
-  refs.loader.style.visibility = 'visible';
+  toggleLoader();
   const query = event.target.elements.query.value;
-  getImagesByName(query).then(data => {
-    refs.loader.style.visibility = 'hidden';
-    if(query === '') {
-      refs.gallery.innerHTML = "";
-      return
-    } else if (parseInt(data.totalHits) > 0) {
-      renderMarkup(data.hits);
-    } else {
-      refs.gallery.innerHTML = '';
+  getImagesByName(query)
+    .then(data => {
+      toggleLoader();
+      if (query === '') {
+        iziToast.warning({
+          message:
+            'Sorry, you forgot to enter a search term. Please try again!',
+          position: 'topRight',
+          messageSize: '16px',
+          timeout: 2000,
+        });
+        return;
+      } else if (parseInt(data.totalHits) > 0) {
+        renderMarkup(data.hits);
+      } else {
+        refs.gallery.innerHTML = '';
+        iziToast.error({
+          message:
+            'Sorry, there are no images matching your search query. Please try again!',
+          position: 'topRight',
+          backgroundColor: 'red',
+          messageColor: 'white',
+          messageSize: '16px',
+          iconColor: 'white',
+          iconUrl: errorIcon,
+          color: 'white',
+          timeout: 2000,
+        });
+      }
+    })
+    .catch(err => {
       iziToast.error({
-        message: 'Sorry, there are no images matching your search query. Please try again!',
+        message: 'Error',
         position: 'topRight',
         backgroundColor: 'red',
         messageColor: 'white',
@@ -53,9 +82,8 @@ function onFormSubmit(event) {
         iconUrl: errorIcon,
         color: 'white',
         timeout: 2000,
+      });
     });
-    }
-  });
   event.target.reset();
 }
 
@@ -91,6 +119,3 @@ function renderMarkup(images) {
   refs.gallery.innerHTML = markup;
   gallery.refresh();
 }
-
-
-
