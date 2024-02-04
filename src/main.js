@@ -25,8 +25,9 @@ function getImagesByName(name) {
     safesearch: 'true',
     q: name,
   });
-  const BASE_URL = 'https://pixabay.com/api';
-  const url = BASE_URL + '?' + searchParams;
+  const BASE_URL = 'https://pixabay.com/api/';
+  const PARAMS = `?${searchParams}`;
+  const url = BASE_URL + PARAMS;
   return fetch(url).then(res => {
     if (res.ok) {
       return res.json();
