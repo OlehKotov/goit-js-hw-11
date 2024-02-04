@@ -1,4 +1,3 @@
-
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import SimpleLightbox from 'simplelightbox';
@@ -6,7 +5,6 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 import './css/styles.css';
 import './css/loader.css';
 import errorIcon from './img/bi_x-octagon.svg';
-
 
 const refs = {
   form: document.querySelector('.form'),
