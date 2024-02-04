@@ -1,3 +1,4 @@
+
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import SimpleLightbox from 'simplelightbox';
@@ -5,7 +6,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 import './css/styles.css';
 import './css/loader.css';
 import errorIcon from './img/bi_x-octagon.svg';
-import './key.env';
+
 
 const refs = {
   form: document.querySelector('.form'),
@@ -20,7 +21,7 @@ refs.form.addEventListener('submit', onFormSubmit);
 
 function getImagesByName(name) {
   const searchParams = new URLSearchParams({
-    key: apiKey,
+    key: '42132229-e88b92984f0d2a7001cb07c65',
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: 'true',
